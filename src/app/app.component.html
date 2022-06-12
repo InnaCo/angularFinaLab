@@ -1,0 +1,127 @@
+
+<div class="background">
+  <title>
+    <h2> Registrar un nuevo socio </h2>
+  </title>
+  <p>
+    <mat-toolbar>
+      <span>Registrar un nuevo socio </span>
+    </mat-toolbar>
+  </p>
+<form>
+  <div class="fixed">
+    <div class="box" style="background-color: rgb(156, 181, 216); position: relative; left: 5%;">
+
+        <p>
+          <mat-form-field apparence="legacy">
+            <mat-label>Nombre</mat-label>
+            <input style="color: black;" matInput [(ngModel)]="newSocio.nombre" type="text" name="nombre" id="nombre" class="form-control"  #nombre="ngModel" minlength="3" required>
+            <div class="error" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+              <span *ngIf="nombre?.errors?.['required']" >Campo obligatorio.</span><br>
+              <span *ngIf="nombre?.errors?.['minlength']">Mínimo 3 caracteres</span>
+            </div>
+          </mat-form-field><br>
+
+          <mat-form-field apparence="legacy">
+            <mat-label>Apellidos</mat-label>
+            <input style="color: black;" matInput [(ngModel)]="newSocio.apellidos" type="text" name="apellidos" id="apellidos" class="form-control" #apellidos="ngModel" minlength="3" required>
+            <div class="error" *ngIf="apellidos?.invalid && (apellidos?.dirty || apellidos?.touched)">
+              <span *ngIf="apellidos?.errors?.['required']">Campo obligatorio.</span><br>
+              <span *ngIf="apellidos?.errors?.['minlength']">Mínimo 3 caracteres</span>
+            </div>
+          </mat-form-field><br>
+
+          <mat-form-field  apparence="legacy">
+            <mat-label>Numero Socio</mat-label>
+            <input style="color: black;" matInput [(ngModel)]="newSocio.numeroSocio" type="text" name="numeroSocio" id="numeroSocio" class="form-control" #numeroSocio="ngModel" required>
+            <div class="error" *ngIf="numeroSocio?.invalid && (numeroSocio?.dirty || numeroSocio?.touched)">
+              <span *ngIf="numeroSocio?.errors?.['required']">Campo obligatorio.</span>
+            </div>
+          </mat-form-field><br>
+
+          <mat-form-field apparence="legacy">
+            <mat-label>DNI</mat-label>
+            <input style="color: black;" matInput [(ngModel)]="newSocio.dni" type="text" name="dni" id="dni" class="form-control" #dni="ngModel" pattern="^\d{8}[a-zA-Z]$" required>
+            <div class="error" *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
+              <span *ngIf="dni?.errors?.['required']">Campo obligatorio.</span>
+              <span *ngIf="dni?.errors?.['pattern']">DNI no valido.</span>
+            </div>
+          </mat-form-field><br>
+
+          <mat-form-field hintLabel="9 dígitos" apparence="legacy">
+            <mat-label>Telefono</mat-label>
+            <input style="color: black;" matInput [(ngModel)]="newSocio.telefono" type="text" name="telefono" id="telefono" class="form-control" #telefono="ngModel" pattern="[0-9]{9}" required>
+            <div class="error" *ngIf="telefono?.invalid && (telefono?.dirty || telefono?.touched)">
+              <span *ngIf="telefono?.errors?.['required']">Campo obligatorio.</span>
+              <span *ngIf="telefono?.errors?.['pattern']">Solo 9 digitos.</span>
+            </div>
+          </mat-form-field><br>
+
+
+
+          <mat-form-field apparence="legacy">
+            <mat-select matInput [(ngModel)]="newSocio.sexo" type="text" name="sexo" id="sexo" class="form-control" placeholder="Sexo" #sexo="ngModel" required >
+              <mat-option value="Hombre">Hombre</mat-option>
+              <mat-option value="Mujer">Mujer</mat-option>
+            </mat-select>
+          </mat-form-field><br>
+
+        <p>
+          <button mat-raised-button color="primary" (click)="addSocio()">Submit</button>
+        </p>
+
+</div>
+
+
+    <div class="box" style="position: relative;left: 5%;">
+
+        <mat-card>
+          <div>
+            <label><h3>Socio Records</h3></label><br><br>
+          </div>
+      <table mat-table #table [dataSource]="myDataArray" class="mat-elevation-z8" style="width: 700pt;">
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.nombre}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="apellidos">
+          <mat-header-cell *matHeaderCellDef>Apellidos</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.apellidos}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="numeroSocio">
+          <mat-header-cell *matHeaderCellDef>Numero Socio</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.numeroSocio}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dni">
+          <mat-header-cell *matHeaderCellDef>DNI</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.dni}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+          <mat-header-cell *matHeaderCellDef>Telefono</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.telefono}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sexo">
+          <mat-header-cell *matHeaderCellDef>Sexo</mat-header-cell>
+          <mat-cell *matCellDef="let socio"><div> {{socio.sexo}} </div></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
+          <mat-cell *matCellDef="let socio">
+            <button mat-button color="primary" (click)="openDialog(this.socio)">Edit</button> |
+            <button mat-button color="warn" (click)="delete(this.socio)">Delete</button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let dataSource; columns: columnsToDisplay;"></mat-row>
+      </table>
+    </mat-card>
+    </div>
+
+  </div>
+
